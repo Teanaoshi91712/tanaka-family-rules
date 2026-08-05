@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>田中家のおうちと子育ての約束</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f7f4ef;
+            --card-bg: #ffffff;
+            --wood-dark: #5c4033;
+            --wood-medium: #8d6e63;
+            --wood-light: #d7ccc8;
+            --wood-accent: #a1887f;
+            --text-main: #3e2723;
+            --text-sub: #5d4037;
+            --accent-green: #689f38;
+            --accent-green-light: #f1f8e9;
+            --border-color: #e0d7cd;
+            --shadow: 0 4px 15px rgba(92, 64, 51, 0.08);
+            --radius: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Zen Maru Gothic', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(var(--wood-light) 0.75px, transparent 0.75px),
+                linear-gradient(135deg, #f7f4ef 0%, #efebe4 100%);
+            background-size: 15px 15px, 100% 100%;
+            color: var(--text-main);
+            line-height: 1.7;
+            padding: 20px 16px 60px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 680px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #795548 0%, #5d4037 100%);
+            color: #ffffff;
+            padding: 28px 20px;
+            border-radius: var(--radius);
+            box-shadow: 0 10px 20px rgba(92, 64, 51, 0.2);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 24px;
+            border: 2px solid #8d6e63;
+        }
+
+        .header-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            margin-bottom: 6px;
+        }
+
+        .header-subtitle {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        /* Progress Bar */
+        .progress-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 16px 20px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .progress-info {
+            flex: 1;
+        }
+
+        .progress-label {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--wood-dark);
+            margin-bottom: 6px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .progress-bar-bg {
+            height: 10px;
+            background: #e0d7cd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #8bc34a, #689f38);
+            border-radius: 5px;
+            transition: width 0.4s ease;
+        }
+
+        .reset-btn {
+            background: #efebe4;
+            border: 1px solid var(--border-color);
+            color: var(--wood-dark);
+            font-family: inherit;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 8px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        /* Section Layout */
+        .section {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 24px 20px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 2px dashed var(--wood-light);
+        }
+
+        .section-badge {
+            background: var(--wood-medium);
+            color: #ffffff;
+            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 12px;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--wood-dark);
+        }
+
+        .hero-box {
+            background: linear-gradient(135deg, #fffbf7 0%, #f5efe6 100%);
+            border: 2px solid #d7ccc8;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .hero-catch {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--wood-dark);
+            margin-bottom: 12px;
+        }
+
+        .hero-desc {
+            font-size: 0.9rem;
+            color: var(--text-sub);
+        }
+
+        /* Checklist Item */
+        .item-card {
+            background: #faf8f5;
+            border: 1px solid #e8e2d9;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .item-card.checked {
+            background: var(--accent-green-light);
+            border-color: #aed581;
+        }
+
+        .item-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .checkbox-custom {
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--wood-accent);
+            border-radius: 6px;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .item-card.checked .checkbox-custom {
+            background: var(--accent-green);
+            border-color: var(--accent-green);
+        }
+
+        .checkbox-custom::after {
+            content: "✓";
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: bold;
+            display: none;
+        }
+
+        .item-card.checked .checkbox-custom::after {
+            display: block;
+        }
+
+        .item-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 4px;
+        }
+
+        .item-body {
+            font-size: 0.88rem;
+            color: var(--text-sub);
+        }
+
+        .item-body ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .item-body li {
+            position: relative;
+            padding-left: 16px;
+            margin-bottom: 4px;
+        }
+
+        .item-body li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--wood-accent);
+        }
+
+        /* Happiness Signs */
+        .signs-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .sign-item {
+            background: #fff8e1;
+            border: 1px solid #ffe082;
+            border-radius: 12px;
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        @media (min-width: 768px) {
+            .signs-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .sign-item {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="header-title">田中家のおうちと子育ての約束</div>
+        <div class="header-subtitle">〜 安心できる場所と、温かな成長を 〜</div>
+    </header>
+
+    <div class="progress-card">
+        <div class="progress-info">
+            <div class="progress-label">
+                <span>今日の意識チェック</span>
+                <span id="progress-percent">0%</span>
+            </div>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progress-fill"></div>
+            </div>
+        </div>
+        <button class="reset-btn" onclick="resetChecks()">リセット</button>
+    </div>
+
+    <!-- 1. おうちの姿 -->
+    <div class="section">
+        <div class="section-header">
+            <span class="section-badge">1</span>
+            <h2 class="section-title">私たちが大切にしたい「おうちの姿」</h2>
+        </div>
+        <div class="hero-box">
+            <div class="hero-catch">「そのままのあなたが大好きな、一番安心できる場所」</div>
+            <div class="hero-desc">
+                我が家は、家族みんながいつでも羽を休められ、そのままの自分を出せる温かな場所です。碧葉も煌河も、親の思い通りに育てるのではなく、子ども自身が持っている「育つ力」を信じて、温かく見守っていきます。
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. 子育てで大切にする3つのこと -->
+    <div class="section">
+        <div class="section-header">
+            <span class="section-badge">2</span>
+            <h2 class="section-title">子育てで大切にする3つのこと</h2>
+        </div>
+
+        <div class="item-card" onclick="toggleCheck(this)">
+            <div class="item-header">
+                <div class="checkbox-custom"></div>
+                <div class="item-content">
+                    <div class="item-title">① どんなあなたも大好き</div>
+                    <div class="item-body">
+                        <ul>
+                            <li>できた・できないに関係なく、存在そのものを大切にします。</li>
+                            <li>「〜できたから偉い」だけでなく、「元気にいてくれて嬉しい」「生まれてきてくれてありがとう」という気持ちを言葉と抱きしめることで伝えます。</li>
+                            <li>泣いたり怒ったりする気持ちも「大切な感情」として否定せず、まずは「そうだったんだね」と受け止めます。</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="item-card" onclick="toggleCheck(this)">
+            <div class="item-header">
+                <div class="checkbox-custom"></div>
+                <div class="item-content">
+                    <div class="item-title">② 本人の力を信じて見守る</div>
+                    <div class="item-body">
+                        <ul>
+                            <li>親が先回りしてコントロールせず、子どもが伸びようとする芽を支えます。</li>
+                            <li>大人の都合で無理に型にはめず、今何に興味を持っているのかを観察し、安心できる環境を作ります。</li>
+                            <li>自分でやってみようとする気持ちを大切にし、困ったときにだけ優しく手を差し伸べます。</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="item-card" onclick="toggleCheck(this)">
+            <div class="item-header">
+                <div class="checkbox-custom"></div>
+                <div class="item-content">
+                    <div class="item-title">③ みんなつながっている</div>
+                    <div class="item-body">
+                        <ul>
+                            <li>自分も、家族も、お友達も、自然も、みんな大切にする心を育みます。</li>
+                            <li>自然の中で遊ぶこと、おいしくごはんを食べることなど、身の回りの「おかげさま」に感謝する姿を、親自身が見せていきます。</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. パパとママの約束 -->
+    <div class="section">
+        <div class="section-header">
+            <span class="section-badge">3</span>
+            <h2 class="section-title">パパとママ（尚道・万起子）の約束</h2>
+        </div>
+
+        <div class="item-card" onclick="toggleCheck(this)">
+            <div class="item-header">
+                <div class="checkbox-custom"></div>
+                <div class="item-content">
+                    <div class="item-title">1. まずはパパとママが笑顔で、心が穏やかでいること</div>
+                    <div class="item-body">親が疲れていては優しい気持ちになれません。お互いに「ちょっと休むね」「助けてね」を素直に言い合い、夫婦のゆとりを第一にします。</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="item-card" onclick="toggleCheck(this)">
+            <div class="item-header">
+                <div class="checkbox-custom"></div>
+                <div class="item-content">
+                    <div class="item-title">2. 「指示」よりも「共感と観察」</div>
+                    <div class="item-body">イライラしそうなときは一呼吸置き、「今、この子はどういう気持ちなのかな？」と一歩引いて見つめます。</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="item-card" onclick="toggleCheck(this)">
+            <div class="item-header">
+                <div class="checkbox-custom"></div>
+                <div class="item-content">
+                    <div class="item-title">3. 夫婦の対話と感謝を忘れない</div>
+                    <div class="item-body">一番大切な土台は夫婦の仲良しと安心感です。「いつもありがとう」を日常の言葉にします。</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. 我が家の「しあわせサイン」 -->
+    <div class="section">
+        <div class="section-header">
+            <span class="section-badge">4</span>
+            <h2 class="section-title">我が家の「しあわせサイン」</h2>
+        </div>
+        <div class="signs-grid">
+            <div class="sign-item">
+                <div class="sign-icon">🏡</div>
+                <div class="sign-text">おうちの中に笑い声と安心感があること</div>
+            </div>
+            <div class="sign-item">
+                <div class="sign-icon">🌱</div>
+                <div class="sign-text">碧葉と煌河が自分の気持ちを素直に出せていること</div>
+            </div>
+            <div class="sign-item">
+                <div class="sign-icon">感謝</div>
+                <div class="sign-text">パパとママが毎日ちょっとでも「ありがとう」を言い合えていること</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleCheck(card) {
+        card.classList.toggle('checked');
+        updateProgress();
+    }
+
+    function updateProgress() {
+        const totalCards = document.querySelectorAll('.item-card').length;
+        const checkedCards = document.querySelectorAll('.item-card.checked').length;
+        const percentage = Math.round((checkedCards / totalCards) * 100);
+
+        document.getElementById('progress-fill').style.width = percentage + '%';
+        document.getElementById('progress-percent').innerText = percentage + '%';
+    }
+
+    function resetChecks() {
+        const cards = document.querySelectorAll('.item-card');
+        cards.forEach(card => card.classList.remove('checked'));
+        updateProgress();
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.section').forEach(section => {
+        observer.observe(section);
+    });
+</script>
+</body>
+</html>
